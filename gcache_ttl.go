@@ -9,14 +9,15 @@ type CacheWithTTL struct {
 	ICache
 }
 
-func NewCacheWithTTL(maxBytes int, ttl time.Duration) ICacheWithTTL {
+func NewCacheWithTTL(maxBytes int) ICacheWithTTL {
 	return &CacheWithTTL{
 		ICache: NewCache(maxBytes),
 	}
 }
 
 func (c *CacheWithTTL) Has(key string) bool {
-	return c.ICache.Has(key)
+	_, ok := unwrapCacheWithTTL(c.ICache.Get(key))
+	return ok
 }
 
 func (c *CacheWithTTL) Get(key string) []byte {
@@ -42,7 +43,7 @@ func (c *CacheWithTTL) Close() error {
 
 // wrapCacheWithTTL wrap data with ttl
 func wrapCacheWithTTL(data []byte, ttl time.Duration) []byte {
-	expireAt := time.Now().Add(ttl).Unix()
+	expireAt := time.Now().Add(ttl).UnixMilli()
 	buf := make([]byte, 8+len(data))
 	binary.BigEndian.PutUint64(buf[:8], uint64(expireAt))
 	copy(buf[8:], data)
@@ -56,7 +57,7 @@ func unwrapCacheWithTTL(data []byte) ([]byte, bool) {
 	}
 
 	expireAt := binary.BigEndian.Uint64(data[:8])
-	if time.Now().Unix() > int64(expireAt) {
+	if time.Now().UnixMilli() >= int64(expireAt) {
 		return nil, false
 	}
 	return data[8:], true

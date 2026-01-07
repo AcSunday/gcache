@@ -9,7 +9,7 @@ import (
 
 // TestNewCacheWithTTL 测试创建带 TTL 的缓存
 func TestNewCacheWithTTL(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	if cache == nil {
 		t.Fatal("NewCacheWithTTL returned nil")
 	}
@@ -18,7 +18,7 @@ func TestNewCacheWithTTL(t *testing.T) {
 
 // TestCacheWithTTL_SetAndGet 测试基本的 Set 和 Get 操作
 func TestCacheWithTTL_SetAndGet(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	defer cache.Close()
 
 	key := "test-key"
@@ -43,7 +43,7 @@ func TestCacheWithTTL_SetAndGet(t *testing.T) {
 
 // TestCacheWithTTL_Expiration 测试过期功能
 func TestCacheWithTTL_Expiration(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	defer cache.Close()
 
 	key := "test-key"
@@ -78,7 +78,7 @@ func TestCacheWithTTL_Expiration(t *testing.T) {
 
 // TestCacheWithTTL_DifferentTTL 测试不同的 TTL 值
 func TestCacheWithTTL_DifferentTTL(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	defer cache.Close()
 
 	key1 := "key1"
@@ -121,7 +121,7 @@ func TestCacheWithTTL_DifferentTTL(t *testing.T) {
 
 // TestCacheWithTTL_UpdateTTL 测试更新 TTL
 func TestCacheWithTTL_UpdateTTL(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	defer cache.Close()
 
 	key := "test-key"
@@ -160,7 +160,7 @@ func TestCacheWithTTL_UpdateTTL(t *testing.T) {
 
 // TestCacheWithTTL_ZeroTTL 测试零 TTL
 func TestCacheWithTTL_ZeroTTL(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	defer cache.Close()
 
 	key := "test-key"
@@ -181,7 +181,7 @@ func TestCacheWithTTL_ZeroTTL(t *testing.T) {
 
 // TestCacheWithTTL_NegativeTTL 测试负 TTL
 func TestCacheWithTTL_NegativeTTL(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	defer cache.Close()
 
 	key := "test-key"
@@ -202,7 +202,7 @@ func TestCacheWithTTL_NegativeTTL(t *testing.T) {
 
 // TestCacheWithTTL_Delete 测试删除操作
 func TestCacheWithTTL_Delete(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	defer cache.Close()
 
 	key := "test-key"
@@ -238,7 +238,7 @@ func TestCacheWithTTL_Delete(t *testing.T) {
 
 // TestCacheWithTTL_Concurrent 测试并发操作
 func TestCacheWithTTL_Concurrent(t *testing.T) {
-	cache := NewCacheWithTTL(10*1024*1024, time.Second)
+	cache := NewCacheWithTTL(10 * 1024 * 1024)
 	defer cache.Close()
 
 	const numGoroutines = 50
@@ -279,7 +279,7 @@ func TestCacheWithTTL_Concurrent(t *testing.T) {
 
 // TestCacheWithTTL_ExpirationRace 测试过期竞态条件
 func TestCacheWithTTL_ExpirationRace(t *testing.T) {
-	cache := NewCacheWithTTL(1024*1024, time.Second)
+	cache := NewCacheWithTTL(1024 * 1024)
 	defer cache.Close()
 
 	key := "test-key"
@@ -312,7 +312,7 @@ func TestCacheWithTTL_ExpirationRace(t *testing.T) {
 
 // TestCacheWithTTL_LargeValue 测试大值
 func TestCacheWithTTL_LargeValue(t *testing.T) {
-	cache := NewCacheWithTTL(10*1024*1024, time.Second)
+	cache := NewCacheWithTTL(10 * 1024 * 1024)
 	defer cache.Close()
 
 	key := "test-key"
@@ -395,7 +395,7 @@ func TestCacheWithTTL_WrapUnwrapInvalid(t *testing.T) {
 
 // BenchmarkCacheWithTTL_Set 基准测试 Set 操作
 func BenchmarkCacheWithTTL_Set(b *testing.B) {
-	cache := NewCacheWithTTL(100*1024*1024, time.Second)
+	cache := NewCacheWithTTL(100 * 1024 * 1024)
 	defer cache.Close()
 
 	key := "bench-key"
@@ -409,7 +409,7 @@ func BenchmarkCacheWithTTL_Set(b *testing.B) {
 
 // BenchmarkCacheWithTTL_Get 基准测试 Get 操作
 func BenchmarkCacheWithTTL_Get(b *testing.B) {
-	cache := NewCacheWithTTL(100*1024*1024, time.Second)
+	cache := NewCacheWithTTL(100 * 1024 * 1024)
 	defer cache.Close()
 
 	key := "bench-key"
@@ -424,7 +424,7 @@ func BenchmarkCacheWithTTL_Get(b *testing.B) {
 
 // BenchmarkCacheWithTTL_Concurrent 并发基准测试
 func BenchmarkCacheWithTTL_Concurrent(b *testing.B) {
-	cache := NewCacheWithTTL(100*1024*1024, time.Second)
+	cache := NewCacheWithTTL(100 * 1024 * 1024)
 	defer cache.Close()
 
 	b.RunParallel(func(pb *testing.PB) {

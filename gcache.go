@@ -38,9 +38,10 @@ func (c *Cache) Get(key string) []byte {
 	// get buffer from pool
 	buf := c.pool.Get().(*[]byte)
 	dst := (*buf)[:0]
+	has := true
 
-	dst = c.cache.Get(dst, bkey)
-	if dst == nil {
+	dst, has = c.cache.HasGet(dst, bkey)
+	if !has || dst == nil {
 		c.pool.Put(buf)
 		return nil
 	}
